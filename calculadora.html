@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Mercúrio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0A2540; /* Azul escuro */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #4A90E2; /* Azul claro */
+            margin: 20px 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 70% 30%; /* Artigos à esquerda, atenuantes à direita */
+            gap: 20px;
+            max-width: 1300px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #123456;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #1B3D65;
+            color: white;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+        .search-container input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #1B3D65;
+            color: white;
+        }
+        .search-container button {
+            padding: 10px;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #357ABD;
+        }
+        .articles-container, .atenuantes-container {
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #23476C;
+        }
+        .articles-container {
+            overflow-y: auto;
+            max-height: 400px; /* Barra de rolagem */
+        }
+        .articles-container div {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #1B3D65;
+            border: 1px solid #4A90E2;
+        }
+        .atenuantes-container h3 {
+            margin-top: 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #1B3D65;
+            color: white;
+            border: none;
+            resize: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora Mercúrio</h1>
+    <div class="form-container">
+        <input type="text" id="nome" placeholder="Nome do Cliente">
+        <input type="text" id="idCliente" placeholder="ID do Cliente">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar Artigos (ex.: 101,102,103)">
+            <button onclick="pesquisarArtigos()">Pesquisar</button>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Artigos à esquerda -->
+        <div class="articles-container">
+            <h3>Artigos</h3>
+            <div><input type="checkbox" id="artigo101" value="100,100000"><label for="artigo101">Artigo 101 - Azaralhamento</label></div>
+            <div><input type="checkbox" id="artigo102" value="100,150000"><label for="artigo102">Artigo 102 - Prisão Militar</label></div>
+            <div><input type="checkbox" id="artigo103" value="100,100000"><label for="artigo103">Artigo 103 - Prevaricação</label></div>
+            <div><input type="checkbox" id="artigo104" value="100,100000"><label for="artigo104">Artigo 104 - Invasão a DP</label></div>
+            <div><input type="checkbox" id="artigo105" value="40,150000"><label for="artigo105">Artigo 105 - Homicídio Qualificado</label></div>
+            <div><input type="checkbox" id="artigo106" value="40,100000"><label for="artigo106">Artigo 106 - Tentativa de Homicídio</label></div>
+            <div><input type="checkbox" id="artigo107" value="40,50000"><label for="artigo107">Artigo 107 - Lesão Corporal</label></div>
+            <div><input type="checkbox" id="artigo108" value="50,200000"><label for="artigo108">Artigo 108 - Sequestro</label></div>
+            <div><input type="checkbox" id="artigo109" value="35,50000"><label for="artigo109">Artigo 109 - Furto</label></div>
+            <div><input type="checkbox" id="artigo110" value="35,50000"><label for="artigo110">Artigo 110 - Receptação de Veículos</label></div>
+            <div><input type="checkbox" id="artigo201" value="10,30000"><label for="artigo201">Artigo 201 - Tentativo de Furto</label></div>
+            <div><input type="checkbox" id="artigo202" value="15,40000"><label for="artigo202">Artigo 202 - Furto de Veículo</label></div>
+            <div><input type="checkbox" id="artigo203" value="15,40000"><label for="artigo203">Artigo 203 - Invasão de Propriedade</label></div>
+            <div><input type="checkbox" id="artigo204" value="40,100000"><label for="artigo204">Artigo 204 - Roubo</label></div>
+            <div><input type="checkbox" id="artigo205" value="35,50000"><label for="artigo205">Artigo 205 - Furto ao Caixinha</label></div>
+            <div><input type="checkbox" id="artigo206" value="40,50000"><label for="artigo206">Artigo 206 - Extorsão</label></div>
+            <div><input type="checkbox" id="artigo207" value="60,300000"><label for="artigo207">Artigo 207 - Tráfico de Armas</label></div>
+            <div><input type="checkbox" id="artigo208" value="45,200000"><label for="artigo208">Artigo 208 - Porte de Arma Pesada</label></div>
+            <div><input type="checkbox" id="artigo209" value="135,150000"><label for="artigo209">Artigo 209 - Porte de Arma Leve</label></div>
+            <div><input type="checkbox" id="artigo210" value="40,50000"><label for="artigo210">Artigo 210 - Posse de Munição</label></div>
+            <div><input type="checkbox" id="artigo301" value="40,50000"><label for="artigo301">Artigo 301 - Passe de Arma Branca</label></div>
+            <div><input type="checkbox" id="artigo302" value="60,10000"><label for="artigo302">Artigo 302 - Tráfico de Munição (100 uni)</label></div>
+            <div><input type="checkbox" id="artigo303" value="50,100000"><label for="artigo303">Artigo 303 - Tráfico de Armamento Balístico</label></div>
+            <div><input type="checkbox" id="artigo304" value="35,70000"><label for="artigo304">Artigo 304 - Aviãozinho</label></div>
+            <div><input type="checkbox" id="artigo305" value="0,10000"><label for="artigo305">Artigo 305 - Posse de Componentes Narcóticos</label></div>
+            <div><input type="checkbox" id="artigo306" value="100,100000"><label for="artigo306">Artigo 306 - Tráfico de Drogas (100 uni)</label></div>
+            <div><input type="checkbox" id="artigo307" value="35,500000"><label for="artigo307">Artigo 307 - Associação ao Tráfico</label></div>
+            <div><input type="checkbox" id="artigo308" value="60,30000"><label for="artigo308">Artigo 308 - Posse de Dinheiro Sujo</label></div>
+            <div><input type="checkbox" id="artigo309" value="60,300000"><label for="artigo309">Artigo 309 - Posse de Dinheiro Sujo</label></div>
+            <div><input type="checkbox" id="artigo310" value="30,125000"><label for="artigo310">Artigo 310 - Falsidade Ideológica</label></div>
+            <div><input type="checkbox" id="artigo401" value="10,10000"><label for="artigo401">Artigo 401 - Perjúrio</label></div>
+            <div><input type="checkbox" id="artigo402" value="50,150000"><label for="artigo402">Artigo 402 - Formação de Quadrilha</label></div>
+            <div><input type="checkbox" id="artigo403" value="30,65000"><label for="artigo403">Artigo 403 - Associação Criminosa</label></div>
+            <div><input type="checkbox" id="artigo404" value="15,30000"><label for="artigo404">Artigo 404 - Difamação</label></div>
+            <div><input type="checkbox" id="artigo405" value="15,30000"><label for="artigo405">Artigo 405 - Injúria</label></div>
+            <div><input type="checkbox" id="artigo406" value="15,30000"><label for="artigo406">Artigo 406 - Calúnia</label></div>
+            <div><input type="checkbox" id="artigo407" value="50,100000"><label for="artigo407">Artigo 407 - Ameaça</label></div>
+            <div><input type="checkbox" id="artigo408" value="50,50000"><label for="artigo408">Artigo 408 - Desobediência 1</label></div>
+            <div><input type="checkbox" id="artigo409" value="50,50000"><label for="artigo409">Artigo 409 - Desobediência 2</label></div>
+            <div><input type="checkbox" id="artigo410" value="50,50000"><label for="artigo410">Artigo 410 - Desobediência 3</label></div>
+            <div><input type="checkbox" id="artigo501" value="50,50000"><label for="artigo501">Artigo 501 - Desobediência 4</label></div>
+            <div><input type="checkbox" id="artigo502" value="35,50000"><label for="artigo502">Artigo 502 - Porte de Itens Ilegais</label></div>
+            <div><input type="checkbox" id="artigo503" value="60,150000"><label for="artigo503">Artigo 503 - Assédio</label></div>
+            <div><input type="checkbox" id="artigo504" value="50,50000"><label for="artigo504">Artigo 504 - Atentado ao Pudor</label></div>
+            <div><input type="checkbox" id="artigo505" value="25,50000"><label for="artigo505">Artigo 505 - Suborno</label></div>
+            <div><input type="checkbox" id="artigo506" value="20,50000"><label for="artigo506">Artigo 506 - Vandalismo</label></div>
+            <div><input type="checkbox" id="artigo507" value="20,100000"><label for="artigo507">Artigo 507 - Danos ao Patrimônio</label></div>
+            <div><input type="checkbox" id="artigo508" value="25,50000"><label for="artigo508">Artigo 508 - Abuso de Autoridade</label></div>
+            <div><input type="checkbox" id="artigo509" value="10,50000"><label for="artigo509">Artigo 509 - Uso de Máscara</label></div>
+            <div><input type="checkbox" id="artigo510" value="10,50000"><label for="artigo510">Artigo 510 - Uso de Equipamento Restrito</label></div>
+            <div><input type="checkbox" id="artigo601" value="20,100000"><label for="artigo601">Artigo 601 - Apologia ao Crime</label></div>
+            <div><input type="checkbox" id="artigo602" value="50,50000"><label for="artigo602">Artigo 602 - Falsa Comunicação de Crime (Trote)</label></div>
+            <div><input type="checkbox" id="artigo603" value="10,5000"><label for="artigo603">Artigo 603 - Vadiagem</label></div>
+            <div><input type="checkbox" id="artigo604" value="10,30000"><label for="artigo604">Artigo 604 - Perturbação do Sossego</label></div>
+            <div><input type="checkbox" id="artigo605" value="10,30000"><label for="artigo605">Artigo 605 - Omissão de το</label></div>
+            <div><input type="checkbox" id="artigo606" value="20,50000"><label for="artigo606">Artigo 606 - Obstrução de Justiça</label></div>
+            <div><input type="checkbox" id="artigo607" value="15,50000"><label for="artigo607">Artigo 607 - Tentativa de Fuga</label></div>
+            <div><input type="checkbox" id="artigo608" value="10,30000"><label for="artigo608">Artigo 608 - Direção Perigosa</label></div>
+            <div><input type="checkbox" id="artigo609" value="10,500000"><label for="artigo609">Artigo 609 - Poluição Sonora</label></div>
+            <div><input type="checkbox" id="artigo610" value="20,50000"><label for="artigo610">Artigo 610 - Corrida Ilegal</label></div>
+            <div><input type="checkbox" id="artigo701" value="20,50000"><label for="artigo701">Artigo 701 - Homicídio Culposo no Trânsito</label></div>
+            <div><input type="checkbox" id="artigo702" value="50,150000"><label for="artigo702">Artigo 702 - Desacato 1</label></div>
+            <div><input type="checkbox" id="artigo703" value="50,150000"><label for="artigo703">Artigo 703 - Desacato 2</label></div>
+            <div><input type="checkbox" id="artigo704" value="50,150000"><label for="artigo704">Artigo 704 - Desacato 3</label></div>
+            <div><input type="checkbox" id="artigo705" value="50,150000"><label for="artigo705">Artigo 705 - Desacato 4</label></div>
+            <div><input type="checkbox" id="artigo706" value="20,50000"><label for="artigo706">Artigo 706 - Resistência à Prisão</label></div>
+            <div><input type="checkbox" id="artigo707" value="15,0"><label for="artigo707">Artigo 707 - Réu Reincidente</label></div>
+        </div>
+
+        <!-- Atenuantes à direita -->
+        <div class="atenuantes-container">
+            <h3>Atenuantes</h3>
+            <div><input type="checkbox" id="advogado" value="30"><label for="advogado">Advogado Constituído (30%)</label></div>
+            <div><input type="checkbox" id="primario" value="10"><label for="primario">Réu Primário (10%)</label></div>
+            <div><input type="checkbox" id="confesso" value="10"><label for="confesso">Réu Confesso (10%)</label></div>
+            <div><input type="checkbox" id="colaboracao" value="10"><label for="colaboracao">Colaboração (10%)</label></div>
+            <div><input type="checkbox" id="delacao" value="50"><label for="delacao">Delação Premiada (50%)</label></div>
+            <textarea id="saida" readonly placeholder="Resultado será exibido aqui"></textarea>
+            <button onclick="calcular()">Calcular Pena</button>
+            <button onclick="copiar()">Copiar Resultado</button>
+            <button onclick="desmarcarTodos()">Desmarcar Todos</button>
+        </div>
+    </div>
+
+    <script>
+        function pesquisarArtigos() {
+            const searchInput = document.getElementById("searchInput").value.trim();
+            const artigoIds = searchInput.split(","); // Permite pesquisar vários IDs de artigos
+            artigoIds.forEach(artigoId => {
+                const checkbox = document.getElementById(`artigo${artigoId.trim()}`);
+                if (checkbox) checkbox.checked = true; // Marca os artigos correspondentes
+            });
+        }
+
+        function calcular() {
+            const nome = document.getElementById("nome").value || "N/D";
+            const idCliente = document.getElementById("idCliente").value || "N/D";
+            const checkboxes = document.querySelectorAll('.articles-container input[type="checkbox"]:checked');
+            let penaTotal = 0, multaTotal = 0, artigosSelecionados = [];
+
+            checkboxes.forEach(checkbox => {
+                const [pena, multa] = checkbox.value.split(",").map(Number);
+                penaTotal += pena;
+                multaTotal += multa;
+                artigosSelecionados.push(checkbox.nextElementSibling.textContent);
+            });
+
+            let reducao = 0;
+            document.querySelectorAll('.atenuantes-container input[type="checkbox"]:checked')
+                .forEach(atenuante => reducao += Number(atenuante.value));
+
+            if (reducao > 0) {
+                penaTotal -= penaTotal * (reducao / 100);
+                multaTotal -= multaTotal * (reducao / 100);
+            }
+
+            // Prepara o resultado com os delimitadores ``` no início e no final
+    const resultado = `\`\`\`
+Nome do Cliente: ${nome}
+ID do Cliente: ${idCliente}
+Artigos Selecionados:
+${artigosSelecionados.join("\n")}
+Pena Total: ${penaTotal.toFixed(1)} meses
+Multa Total: R$ ${multaTotal.toLocaleString("pt-BR")}
+ \`\`\``;
+            document.getElementById("saida").value = resultado;
+        }
+
+        function copiar() {
+            const texto = document.getElementById("saida").value;
+            navigator.clipboard.writeText(texto)
+                .then(() => alert("Resultado copiado para a área de transferência!"))
+                .catch(err => console.error("Erro ao copiar:", err));
+        }
+
+        function desmarcarTodos() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false); // Desmarca todos os checkboxes
+            document.getElementById("saida").value = ""; // Limpa o campo de saída
+        }
+    </script>
+</body>
+</html>
